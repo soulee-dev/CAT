@@ -74,7 +74,7 @@ return false;
 
 
 
-Security Tips
+## Security Tips
 
 When you save token into cookie, you must be save as http only cookie. 
 
