@@ -36,34 +36,31 @@ Example
 
 Creating Token
 
-`
-
+```php
 $cat = new CAT("Salt!");
 
 $arr = array(
 
-​                    'username' => $username,
+                    'username' => $username,
 
-​                    'acl' => $acl,
+                    'acl' => $acl,
 
-​                    'ipadr' => $_SERVER["REMOTE_ADDR"],
+                    'ipadr' => $_SERVER["REMOTE_ADDR"],
 
-​                    'expire' => time() + 600
+                    'expire' => time() + 600
 
 );
 
 $data = $cat -> CreateToken(json_encode($arr));
 
-setcookie($coookie_name, $data, time() + 600, "/", "", null, true);`
+setcookie($coookie_name, $data, time() + 600, "/", "", null, true);
+```
 
 
 
 Verifying Token
 
-
-
-`
-
+```php
 $cat = new CAT(getProperty("salt"));
 
 if($cat -> VerifyToken($_COOKIE["token"], $acl, $ref)) {
@@ -73,5 +70,12 @@ if($cat -> VerifyToken($_COOKIE["token"], $acl, $ref)) {
 }
 
 return false;
+```
 
-`
+
+
+Security Tips
+
+When you save token into cookie, you must be save as http only cookie. 
+
+Otherwise, Attackers can try XSS.
