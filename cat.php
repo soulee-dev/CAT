@@ -13,7 +13,7 @@ class CAT {
         return($data);
     }
 
-    function VerifyToken($data, $acl, $ref = null, $salt = null) {
+    function VerifyToken($data, $acl, $ref, $salt = null) {
         $str = explode(".", $data);
 
         if(count($str) <= 1) {
@@ -22,20 +22,16 @@ class CAT {
 
         if(hash_hmac("sha256", $str[0], $this -> defsalt . $salt) == $str[1]) {
 
-            $jsondcode = json_decode(base64_decode($str[0]));
-
             if(intval($jsondcode -> {"expire"}) > time() && $acl == $jsondcode -> {"acl"} && $jsondcode -> {"ipadr"} == $_SERVER["REMOTE_ADDR"]) {
-                    if(isset($ref)) {
                         if($_SERVER['HTTP_REFERER'] == $ref)
                         {
                             return true;
                         }
                         return false;
-                    }
-                    return true;
             }
             return false;
         }
+        return false;
     }
 }
 ?>
