@@ -22,12 +22,10 @@ class CAT {
 
         if(hash_hmac("sha256", $str[0], $this -> defsalt . $salt) == $str[1]) {
 
-            if(intval($jsondcode -> {"expire"}) > time() && $acl == $jsondcode -> {"acl"} && $jsondcode -> {"ipadr"} == $_SERVER["REMOTE_ADDR"]) {
-                        if($_SERVER['HTTP_REFERER'] == $ref)
-                        {
-                            return true;
-                        }
-                        return false;
+            $jsondcode = json_decode(base64_decode($str[0]));
+
+            if(intval($jsondcode -> {"expire"}) > time() && $acl == $jsondcode -> {"acl"} && $jsondcode -> {"ipadr"} == $_SERVER["REMOTE_ADDR"] && $_SERVER['HTTP_REFERER'] == $ref) {
+                return true;
             }
             return false;
         }
